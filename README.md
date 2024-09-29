@@ -195,8 +195,48 @@ If a variable is not found
 ### **5. No Type Checking**
 Fuzzion treats all expressions as numerical values and does not enforce a type system. Adding type safety would enhance the language’s robustness.
 
+Here are additional limitations for the current implementation of **Fuzzion** that you can include in the README:
+
 ---
 
-## **Conclusion**
+## **Limitations of the Current Implementation**
 
-Fuzzion is a lightweight DSL for designing and evaluating fuzzy logic gates. It supports variable binding, scope management, assignments, and basic logic operations. Though the language has limitations, it offers a foundation for working with fuzzy logic in a simple and intuitive manner.
+While Fuzzion provides basic functionality for fuzzy logic evaluation, the current implementation has several notable limitations:
+
+### **1. Limited Logical Gates**
+Fuzzion currently supports only a few basic logic gates (`AND` and `TestGate`). Other commonly used gates such as `OR`, `XOR`, `NAND`, and `NOT` are missing. This limits the expressive power of the language when implementing more complex fuzzy logic operations.
+
+### **2. Simple and Rigid Parsing**
+The Fuzzion parser is highly simplistic. It only supports parsing basic expressions such as `AND true false` or `NOT true`. The parser lacks:
+- **Parentheses Handling**: No support for grouping expressions with parentheses.
+- **Complex Expressions**: You cannot nest expressions or combine multiple operations like `AND`, `OR`, and `NOT` together.
+- **Custom User-defined Functions**: Users cannot define their own functions or logic gates. All logic is hardcoded within the language.
+
+### **3. No Support for Multiple Data Types**
+All expressions and variables in Fuzzion are treated as numeric values (`Double`) between `0.0` and `1.0`, without support for other data types. This restricts the DSL from supporting richer logic expressions that require more complex data types like **Booleans**, **Strings**, or **Collections**.
+
+### **4. Lack of Nested Scopes**
+Fuzzion only supports a single flat scope for variable binding. In more advanced use cases, nested scopes (e.g., inner scopes within loops or functions) are needed to properly manage variable shadowing and to handle more complex logic operations. Fuzzion does not provide a mechanism for creating and managing nested scopes.
+
+### **5. No Support for Control Flow**
+The language lacks control flow structures like **conditionals** (`if-else`), **loops**, and **case-switch** statements. This makes it impossible to express dynamic decisions or repeated operations based on the results of previous logic gate evaluations.
+
+### **6. Static Variable Management**
+Variable management in Fuzzion is static. Once a variable is bound in a scope, it cannot be dynamically updated unless explicitly re-assigned. There is no concept of **variable mutation**, **dynamic scoping**, or **closures**, which limits the flexibility in using variables within different contexts or functions.
+
+### **7. No Error Handling or Debugging Support**
+Fuzzion does not provide a comprehensive error-handling mechanism. For example:
+- **Undefined Variables**: If a variable is not found in the current scope, it defaults to `0.0` without any error message.
+- **Syntax Errors**: The parser does not catch invalid expressions or syntax errors. Users are left without useful feedback if they misuse the language.
+- **Runtime Errors**: There are no mechanisms to catch or recover from runtime errors. If an invalid operation is attempted, the program may silently fail or produce incorrect results.
+
+
+### **8. Limited Extensibility**
+Fuzzion's current architecture is not designed to be easily extensible. Adding new features, gates, or operations requires modifying the core source code directly, rather than enabling users to extend the language via a plugin system or configuration file.
+
+
+### **9. No Input/Output Integration**
+The current implementation does not provide any mechanisms for interacting with external systems or files. There are no APIs or functions to read inputs from files, databases, or external services, and there is no way to export the results of expressions to files or other formats.
+
+---
+
