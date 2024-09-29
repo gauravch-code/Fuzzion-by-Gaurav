@@ -17,11 +17,11 @@ Fuzzion is a domain-specific language (DSL) designed for designers of fuzzy logi
 
 Before you can run the Fuzzion program, ensure that you have the following tools installed on your machine:
 
-1. **Java Development Kit (JDK)** (Version 22 or higher): [Download from Oracle](https://www.oracle.com/java/technologies/javase-jdk22-downloads.html)
-2. **Scala** (Version 3.5.1): [Download Scala](https://www.scala-lang.org/download/)
-3. **SBT (Simple Build Tool)**: [Download SBT](https://www.scala-sbt.org/download.html)
-4. **Git**: [Download Git](https://git-scm.com/)
-5. **IntelliJ IDEA** (Optional, but recommended): [Download IntelliJ](https://www.jetbrains.com/idea/download/)
+1. **Java Development Kit (JDK)** (Version 22 or higher)
+2. **Scala** (Version 3.5.1)
+3. **SBT (Simple Build Tool)**
+4. **Git** or **Github Desktop**
+5. **IntelliJ IDEA**
 
 ---
 
@@ -185,13 +185,3 @@ Fuzzion treats all expressions as numerical values and does not enforce a type s
 ## **Conclusion**
 
 Fuzzion is a lightweight DSL for designing and evaluating fuzzy logic gates. It supports variable binding, scope management, and basic logic operations. Though the language has limitations, it offers a foundation for working with fuzzy logic in a simple and intuitive manner.
-
-Feel free to experiment with Fuzzion, add more features, and improve upon the current implementation. If you have any questions, please reach out through the appropriate channels.
-
----
-
-**Note:** Make sure you give your instructor and TA write access to your GitHub repository for evaluation purposes. 
-
----
-
-This README file should guide the user through every essential step to get the Fuzzion program up and running, as well as provide them with a comprehensive understanding of the language and its limitations. Let me know if you need any other details or changes!
