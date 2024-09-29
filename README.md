@@ -25,7 +25,7 @@ Before setting up and running the Fuzzion project, ensure you have the following
 To get started, clone the repository from GitHub.
 
 1. **Open your terminal**:
-   - **Windows**: In Windows, open Command prompt.
+    **Windows**: In Windows, open Command prompt.
   
 
 2. **Clone the Repository**:
