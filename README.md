@@ -1,7 +1,7 @@
 # Gaurav Chintakunta
 ---
 
-# **Fuzzion: A DSL for Fuzzy Logic Gates**
+# **Fuzzion: A DSL for Fuzzy Logic**
 
 ## **Description**
 
