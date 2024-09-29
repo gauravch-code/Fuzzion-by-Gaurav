@@ -145,14 +145,14 @@ Fuzzion supports logic gates, such as `AND` and `TestGate`, to perform fuzzy log
 
 **How to Create an AND Expression:**
 ```scala
-val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)) // Returns 0.5
+val and_exp = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)) // Returns 0.5
 ```
 
 - **TestGate**: This gate evaluates an expression and compares its result with a given threshold. If the result meets or exceeds the threshold, it returns `1.0`; otherwise, it returns `0.0`.
 
 **How to Create a TestGate Expression:**
 ```scala
-val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5) // Returns 1.0
+val test_gate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5) // Returns 1.0
 ```
 
 #### **1.4. Assignment and Scopes**
@@ -162,7 +162,7 @@ Assignments allow you to bind variables to expressions within a scope, and scope
 
   **Example**:
   ```scala
-  val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+  val assign_exp = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
   Fuzzion.eval(assignExpr, scope) // Assigns 0.5 to y in the scope
   ```
 
@@ -208,7 +208,7 @@ An `AND` gate evaluates two expressions and returns the second one, provided the
 
 **How to Evaluate an AND Expression:**
 ```scala
-val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5))
+val and_exp = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5))
 val result = Fuzzion.eval(andExpr) // Returns 0.5
 ```
 
@@ -220,7 +220,7 @@ The `TestGate` compares the result of an expression to a threshold. If the resul
 ```scala
 
 
-val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5)
+val test_gate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5)
 val result = Fuzzion.eval(testGate) // Returns 1.0
 ```
 
@@ -230,7 +230,7 @@ The `Assign` expression binds a value to a variable in a given scope. The result
 
 **How to Evaluate an Assignment:**
 ```scala
-val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+val assign_exp = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
 val result = Fuzzion.eval(assignExpr, scope) // Returns 0.5 and assigns it to "y"
 ```
 
