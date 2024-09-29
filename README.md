@@ -1,9 +1,5 @@
 # Gaurav Chintakunta
-
-Here’s a detailed **README.md** file that includes all the necessary information for users to clone, assemble, deploy, and run the Fuzzion program and its tests, along with explanations about the language’s semantics and limitations. This is tailored to guide users through every step, assuming they are new to the project.
-
 ---
-
 # **Fuzzion: A Fuzzy Logic Domain-Specific Language (DSL)**
 
 ### **Description**
@@ -20,35 +16,15 @@ Before you can run the Fuzzion program, ensure that you have the following tools
 1. **Java Development Kit (JDK)** (Version 22 or higher)
 2. **Scala** (Version 3.5.1)
 3. **SBT (Simple Build Tool)**
-4. **Git** or **Github Desktop**
-5. **IntelliJ IDEA**
-
----
-
-## **Cloning the Repository**
-
-To start working with Fuzzion, you need to clone the project from the repository.
-
-1. **Open a Terminal or Command Prompt**:
-    - **Windows**: Press `Windows + R`, type `cmd`, and press Enter.
-    - **macOS/Linux**: Open the Terminal from your Applications folder or taskbar.
-
-2. **Run the following command to clone the repository**:
-   ```bash
-   git clone https://github.com/your-repository/fuzzion
-   ```
-
-3. **Move into the project directory**:
-   ```bash
-   cd fuzzion
-   ```
+4. **Git** or **GitHub Desktop**
+5. **IntelliJ IDEA** (Optional, but recommended)
 
 ---
 
 ## **Assembling and Deploying the Project**
 
 ### **Step 1: Compile the Project**
-You need to compile the project before running it. In the terminal (inside the `fuzzion` directory), run the following command:
+You need to download the zip file from the GitHub repository. Then, you need to compile the project before running it. In the terminal (inside the `fuzzion` directory), run the following command:
 
 ```bash
 sbt compile
@@ -110,10 +86,10 @@ After running the tests, you should see a message indicating whether all tests p
 ## **Understanding the Fuzzion Language**
 
 ### **Overview**
-Fuzzion allows users to simulate fuzzy logic gates, bind variables, and evaluate expressions within a defined scope. Below are the primary components of the language.
+Fuzzion allows users to simulate fuzzy logic gates, bind variables, assign values, and evaluate expressions within a defined scope. Below are the primary components of the language.
 
 ### **1. Expressions**
-Expressions in Fuzzion can be **literals**, **variables**, or **logical gates**.
+Expressions in Fuzzion can be **literals**, **variables**, **assignments**, or **logical gates**.
 
 #### **1.1. Literals**
 A literal represents a fixed numerical value between `0.0` and `1.0`.
@@ -133,31 +109,68 @@ scope.bind("x", Fuzzion.Literal(0.7)) // Binds 0.7 to x
 ```
 
 #### **1.3. Logical Gates**
-Fuzzion supports simple fuzzy logic gates like `AND` and `TestGate`.
+Fuzzion supports fuzzy logic gates like **AND**, and it also supports assignments and scopes for variable management.
 
-- **AND Gate**: Evaluates two expressions using fuzzy logic.
+- **AND Gate**: The `AND` gate evaluates two expressions using fuzzy logic. The result is determined by the evaluation of both expressions. Fuzzion uses fuzzy logic, so the output can be a value between `0.0` and `1.0`.
 
   **Example:**
   ```scala
   val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)) // Result: 0.5
   ```
 
-- **TestGate**: Tests whether the result of an expression meets a threshold.
+- **TestGate**: The `TestGate` evaluates an expression and checks whether its result meets a specific threshold. If the result is greater than or equal to the threshold, it returns `1.0`; otherwise, it returns `0.0`.
 
   **Example:**
   ```scala
   val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5) // Result: 1.0
   ```
 
-### **2. Scopes and Variable Binding**
-A **scope** is where variables are stored and managed. Variables are bound to values within a scope and can be evaluated within the same scope.
+#### **1.4. Assignment and Scopes**
+Assignments allow you to bind variables to expressions within a scope, and scopes manage the lifecycle of these variables. Variables can be reassigned or shadowed within the scope.
 
-**Example:**
-```scala
-val scope = new Fuzzion.Scope()
-scope.bind("x", Fuzzion.Literal(0.7))
-val result = Fuzzion.eval(Fuzzion.Variable("x"), scope) // Result: 0.7
-```
+- **Assign**: The `Assign` operation binds a variable to a specific expression. The result is stored in the scope.
+
+  **Example**:
+  ```scala
+  val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+  Fuzzion.eval(assignExpr, scope) // Assigns 0.5 to y in the scope
+  ```
+
+- **Scope**: A scope is where variables are stored and managed. When evaluating an expression, the scope is checked for variable values, and new values can be assigned or reassigned.
+
+  **Example**:
+  ```scala
+  val scope = new Fuzzion.Scope()
+  scope.bind("x", Fuzzion.Literal(0.7)) // Binds 0.7 to x
+  val result = Fuzzion.eval(Fuzzion.Variable("x"), scope) // Result: 0.7
+  ```
+
+### **1.5. Test Cases**
+Fuzzion comes with several test cases to verify the correctness of its operations, including:
+1. **AND Gate Test**: Ensures that the AND operation works correctly for different inputs.
+   - **Test Example**:
+   ```scala
+   val exp = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.0))
+   assert(Fuzzion.eval(exp) == 0.0) // Correct evaluation of AND gate
+   ```
+
+2. **Assignment Test**: Verifies that variables can be assigned values within a scope and that they can be correctly evaluated afterward.
+   - **Test Example**:
+   ```scala
+   val scope = new Fuzzion.Scope()
+   val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+   assert(Fuzzion.eval(assignExpr, scope) == 0.5)
+   assert(Fuzzion.eval(Fuzzion.Variable("y"), scope) == 0.5)
+   ```
+
+3. **Variable Binding Test**: Ensures that variables bound in a scope can be retrieved and used in expressions.
+   - **Test Example**:
+   ```scala
+   val scope = new Fuzzion.Scope()
+   scope.bind("x", Fuzzion.Literal(0.7))
+   val varExpr = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
+   assert(Fuzzion.eval(varExpr, scope) == 0.7) // Uses value of x from the scope
+   ```
 
 ---
 
@@ -175,7 +188,9 @@ The parser is basic and can only handle simple expressions like `"AND true false
 The current implementation supports only a single flat scope. There is no functionality for nested or hierarchical scopes.
 
 ### **4. No Error Handling**
-If a variable is not found in the scope, Fuzzion defaults to `0.0` without throwing any errors or warnings. A more robust error-handling mechanism is needed.
+If a variable is not found
+
+ in the scope, Fuzzion defaults to `0.0` without throwing any errors or warnings. A more robust error-handling mechanism is needed.
 
 ### **5. No Type Checking**
 Fuzzion treats all expressions as numerical values and does not enforce a type system. Adding type safety would enhance the language’s robustness.
@@ -184,4 +199,4 @@ Fuzzion treats all expressions as numerical values and does not enforce a type s
 
 ## **Conclusion**
 
-Fuzzion is a lightweight DSL for designing and evaluating fuzzy logic gates. It supports variable binding, scope management, and basic logic operations. Though the language has limitations, it offers a foundation for working with fuzzy logic in a simple and intuitive manner.
+Fuzzion is a lightweight DSL for designing and evaluating fuzzy logic gates. It supports variable binding, scope management, assignments, and basic logic operations. Though the language has limitations, it offers a foundation for working with fuzzy logic in a simple and intuitive manner.
