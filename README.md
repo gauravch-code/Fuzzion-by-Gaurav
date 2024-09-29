@@ -1,5 +1,7 @@
 # Gaurav Chintakunta
+
 ---
+
 # **Fuzzion: A Fuzzy Logic Domain-Specific Language (DSL)**
 
 ### **Description**
@@ -21,10 +23,28 @@ Before you can run the Fuzzion program, ensure that you have the following tools
 
 ---
 
+## **Cloning the Repository**
+
+To start working with Fuzzion, you need to clone the project from the repository.
+
+1. **Open a Terminal or Command Prompt**:
+    In Windows, open Command Prompt.
+2. **Run the following command to clone the repository**:
+   ```bash
+   git clone https://github.com/your-repository/fuzzion
+   ```
+
+3. **Move into the project directory**:
+   ```bash
+   cd fuzzion
+   ```
+
+---
+
 ## **Assembling and Deploying the Project**
 
 ### **Step 1: Compile the Project**
-You need to download the zip file from the GitHub repository. Then, you need to compile the project before running it. In the terminal (inside the `fuzzion` directory), run the following command:
+You need to compile the project before running it. In the terminal (inside the `fuzzion` directory), run the following command:
 
 ```bash
 sbt compile
@@ -86,44 +106,54 @@ After running the tests, you should see a message indicating whether all tests p
 ## **Understanding the Fuzzion Language**
 
 ### **Overview**
-Fuzzion allows users to simulate fuzzy logic gates, bind variables, assign values, and evaluate expressions within a defined scope. Below are the primary components of the language.
+Fuzzion allows users to simulate fuzzy logic gates, assign variables, and evaluate expressions within a defined scope. Below is a detailed guide on how to create and evaluate different expressions.
 
-### **1. Expressions**
-Expressions in Fuzzion can be **literals**, **variables**, **assignments**, or **logical gates**.
+---
+
+## **Creating and Evaluating Expressions in Fuzzion**
+
+### **1. Creating Expressions in Fuzzion**
+
+Fuzzion supports different types of expressions, which include literals, variables, assignments, and logic gates. Here’s how you can create them:
 
 #### **1.1. Literals**
-A literal represents a fixed numerical value between `0.0` and `1.0`.
 
-**Example:**
+A literal is a simple numeric value between `0.0` and `1.0`. It represents a fuzzy truth value.
+
+**How to Create a Literal:**
 ```scala
 val literal = Fuzzion.Literal(1.0)
 ```
+In this case, the literal `1.0` represents a fully "true" value in fuzzy logic.
 
 #### **1.2. Variables**
-Variables represent named values whose values are determined by the scope.
 
-**Example:**
+Variables in Fuzzion represent named entities whose values are determined within a scope. You can assign a variable and retrieve its value dynamically during expression evaluation.
+
+**How to Create and Bind a Variable:**
 ```scala
 val variable = Fuzzion.Variable("x")
-scope.bind("x", Fuzzion.Literal(0.7)) // Binds 0.7 to x
+scope.bind("x", Fuzzion.Literal(0.7)) // Binds variable "x" to the value 0.7 in the scope
+```
+Here, variable `x` is bound to the value `0.7` within the scope.
+
+#### **1.3. Logic Gates (AND, TestGate)**
+
+Fuzzion supports logic gates, such as `AND` and `TestGate`, to perform fuzzy logic operations on expressions.
+
+- **AND Gate**: The `AND` gate evaluates two expressions and returns the second value if both are non-zero.
+
+**How to Create an AND Expression:**
+```scala
+val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)) // Returns 0.5
 ```
 
-#### **1.3. Logical Gates**
-Fuzzion supports fuzzy logic gates like **AND**, and it also supports assignments and scopes for variable management.
+- **TestGate**: This gate evaluates an expression and compares its result with a given threshold. If the result meets or exceeds the threshold, it returns `1.0`; otherwise, it returns `0.0`.
 
-- **AND Gate**: The `AND` gate evaluates two expressions using fuzzy logic. The result is determined by the evaluation of both expressions. Fuzzion uses fuzzy logic, so the output can be a value between `0.0` and `1.0`.
-
-  **Example:**
-  ```scala
-  val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)) // Result: 0.5
-  ```
-
-- **TestGate**: The `TestGate` evaluates an expression and checks whether its result meets a specific threshold. If the result is greater than or equal to the threshold, it returns `1.0`; otherwise, it returns `0.0`.
-
-  **Example:**
-  ```scala
-  val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5) // Result: 1.0
-  ```
+**How to Create a TestGate Expression:**
+```scala
+val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5) // Returns 1.0
+```
 
 #### **1.4. Assignment and Scopes**
 Assignments allow you to bind variables to expressions within a scope, and scopes manage the lifecycle of these variables. Variables can be reassigned or shadowed within the scope.
@@ -145,57 +175,114 @@ Assignments allow you to bind variables to expressions within a scope, and scope
   val result = Fuzzion.eval(Fuzzion.Variable("x"), scope) // Result: 0.7
   ```
 
-### **1.5. Test Cases**
-Fuzzion comes with several test cases to verify the correctness of its operations, including:
-1. **AND Gate Test**: Ensures that the AND operation works correctly for different inputs.
-   - **Test Example**:
-   ```scala
-   val exp = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.0))
-   assert(Fuzzion.eval(exp) == 0.0) // Correct evaluation of AND gate
-   ```
+---
 
-2. **Assignment Test**: Verifies that variables can be assigned values within a scope and that they can be correctly evaluated afterward.
-   - **Test Example**:
-   ```scala
-   val scope = new Fuzzion.Scope()
-   val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
-   assert(Fuzzion.eval(assignExpr, scope) == 0.5)
-   assert(Fuzzion.eval(Fuzzion.Variable("y"), scope) == 0.5)
-   ```
+### **2. Evaluating Expressions in Fuzzion**
 
-3. **Variable Binding Test**: Ensures that variables bound in a scope can be retrieved and used in expressions.
-   - **Test Example**:
-   ```scala
-   val scope = new Fuzzion.Scope()
-   scope.bind("x", Fuzzion.Literal(0.7))
-   val varExpr = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
-   assert(Fuzzion.eval(varExpr, scope) == 0.7) // Uses value of x from the scope
-   ```
+Once you’ve created expressions, you can evaluate them using the `eval` function. Fuzzion evaluates literals, variables, and logic gates differently depending on their type.
+
+#### **2.1. Evaluating Literals**
+
+A `Literal` simply returns its value when evaluated.
+
+**How to Evaluate a Literal:**
+```scala
+val literal = Fuzzion.Literal(1.0)
+val result = Fuzzion.eval(literal) // Returns 1.0
+```
+
+#### **2.2. Evaluating Variables**
+
+Variables are evaluated by retrieving their value from the scope in which they are bound. If a variable is not found in the scope, it defaults to `0.0`.
+
+**How to Evaluate a Variable:**
+```scala
+val scope = new Fuzzion.Scope()
+scope.bind("x", Fuzzion.Literal(0.7))
+val result = Fuzzion.eval(Fuzzion.Variable("x"), scope) // Returns 0.7
+```
+
+#### **2.3. Evaluating AND Expressions**
+
+An `AND` gate evaluates two expressions and returns the second one, provided the first one is non-zero.
+
+**How to Evaluate an AND Expression:**
+```scala
+val andExpr = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5))
+val result = Fuzzion.eval(andExpr) // Returns 0.5
+```
+
+#### **2.4. Evaluating TestGate**
+
+The `TestGate` compares the result of an expression to a threshold. If the result of the expression is greater than or equal to the threshold, it returns `1.0`; otherwise, it returns `0.0`.
+
+**How to Evaluate a TestGate Expression:**
+```scala
+
+
+val testGate = Fuzzion.TestGate(Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.5)), 0.5)
+val result = Fuzzion.eval(testGate) // Returns 1.0
+```
+
+#### **2.5. Evaluating Assignments**
+
+The `Assign` expression binds a value to a variable in a given scope. The result of the evaluation is the value assigned to the variable.
+
+**How to Evaluate an Assignment:**
+```scala
+val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+val result = Fuzzion.eval(assignExpr, scope) // Returns 0.5 and assigns it to "y"
+```
+
+After the assignment, the variable `y` will have the value `0.5` in the current scope.
 
 ---
 
-## **Limitations of the Current Implementation**
+### **3. Example: Creating and Evaluating Expressions**
 
-While Fuzzion is functional for basic operations, it has several limitations:
+Here’s an example of how you can create and evaluate expressions in Fuzzion:
 
-### **1. Limited Logical Gates**
-Fuzzion currently only supports `AND` and `TestGate`. Other gates like `OR`, `XOR`, and `NAND` are not implemented.
+```scala
+val scope = new Fuzzion.Scope()
 
-### **2. Simple Parsing**
-The parser is basic and can only handle simple expressions like `"AND true false"`. It does not support complex expressions with parentheses or nesting.
+// Step 1: Bind a variable "x" to 0.7
+scope.bind("x", Fuzzion.Literal(0.7))
 
-### **3. No Nested Scopes**
-The current implementation supports only a single flat scope. There is no functionality for nested or hierarchical scopes.
+// Step 2: Create an AND expression involving the variable "x"
+val expr = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
 
-### **4. No Error Handling**
-If a variable is not found
+// Step 3: Evaluate the expression within the scope
+val result = Fuzzion.eval(expr, scope) // Result will be 0.7
+println(s"Evaluation result: $result")
+```
 
- in the scope, Fuzzion defaults to `0.0` without throwing any errors or warnings. A more robust error-handling mechanism is needed.
+---
 
-### **5. No Type Checking**
-Fuzzion treats all expressions as numerical values and does not enforce a type system. Adding type safety would enhance the language’s robustness.
+### **4. Test Cases for Expressions**
 
-Here are additional limitations for the current implementation of **Fuzzion** that you can include in the README:
+To ensure that your expressions are created and evaluated correctly, Fuzzion includes several test cases:
+
+- **AND Gate Test**:
+  ```scala
+  val exp = Fuzzion.Literal(1.0).and(Fuzzion.Literal(0.0))
+  assert(Fuzzion.eval(exp) == 0.0)
+  ```
+
+- **Assignment and Retrieval Test**:
+  ```scala
+  val scope = new Fuzzion.Scope()
+  val assignExpr = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+  assert(Fuzzion.eval(assignExpr, scope) == 0.5)
+  assert(Fuzzion.eval(Fuzzion.Variable("y"), scope) == 0.5)
+  ```
+
+- **Variable Binding Test**:
+  ```scala
+  val scope = new Fuzzion.Scope()
+  scope.bind("x", Fuzzion.Literal(0.7))
+  val varExpr = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
+  assert(Fuzzion.eval(varExpr, scope) == 0.7)
+  ```
 
 ---
 
@@ -230,10 +317,8 @@ Fuzzion does not provide a comprehensive error-handling mechanism. For example:
 - **Syntax Errors**: The parser does not catch invalid expressions or syntax errors. Users are left without useful feedback if they misuse the language.
 - **Runtime Errors**: There are no mechanisms to catch or recover from runtime errors. If an invalid operation is attempted, the program may silently fail or produce incorrect results.
 
-
-### **8. Limited Extensibility**
-Fuzzion's current architecture is not designed to be easily extensible. Adding new features, gates, or operations requires modifying the core source code directly, rather than enabling users to extend the language via a plugin system or configuration file.
-
+### **8. Hardcoded Logic Thresholds**
+For the `TestGate` logic, the threshold is hardcoded and evaluated against a specific number. There is no way to dynamically alter the threshold based on user input or different evaluation contexts, which limits the flexibility of the fuzzy logic gate comparisons.
 
 ### **9. No Input/Output Integration**
 The current implementation does not provide any mechanisms for interacting with external systems or files. There are no APIs or functions to read inputs from files, databases, or external services, and there is no way to export the results of expressions to files or other formats.
