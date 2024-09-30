@@ -14,6 +14,10 @@ object FuzzionApp {
     val not_exp = Fuzzion.not(Fuzzion.Literal(0.6)) // NOT operation
     println(s"Evaluation result (NOT 0.6): ${Fuzzion.eval(not_exp)}") // Expected: 0.4
 
+    // Example: Evaluating a XOR expression directly using DSL
+    val xor_exp = Fuzzion.Literal(0.7).xor(Fuzzion.Literal(0.4))
+    println(s"Evaluation result (0.7 XOR 0.4): ${Fuzzion.eval(xor_exp)}") // Expected: approximately 0.3
+
     // Example: Using variables and scopes
     val scope = new Fuzzion.Scope()
     scope.bind("x", Fuzzion.Literal(0.7)) // Bind variable 'x' to 0.7
@@ -41,6 +45,7 @@ object Fuzzion {
   case class Not(expr: Expression) extends Expression
   case class Or(lhs: Expression, rhs: Expression) extends Expression
   case class And(lhs: Expression, rhs: Expression) extends Expression
+  case class Xor(lhs: Expression, rhs: Expression) extends Expression
 
   class Scope {
     private val variables = scala.collection.mutable.Map[String, Literal]()
@@ -77,6 +82,10 @@ object Fuzzion {
       val leftEval = eval(lhs, scope)
       val rightEval = eval(rhs, scope)
       math.min(leftEval, rightEval) // Fuzzy logic AND operation (returns min of the two)
+    case Xor(lhs, rhs) => // Fuzzy logic XOR operation
+      val leftEval = eval(lhs, scope)
+      val rightEval = eval(rhs, scope)
+      math.max(leftEval, rightEval) - math.min(leftEval, rightEval) // Fuzzy logic XOR operation (returns the difference between max and min)
   }
 
   // Helper function for NOT operation
@@ -86,5 +95,6 @@ object Fuzzion {
   implicit class ExpressionOps(lhs: Expression) {
     def and(rhs: Expression): Expression = And(lhs, rhs)
     def or(rhs: Expression): Expression = Or(lhs, rhs)
+    def xor(rhs: Expression): Expression = Xor(lhs, rhs)
   }
 }
