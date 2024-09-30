@@ -5,7 +5,7 @@
 
 ## **Description**
 
-**Fuzzion** is a domain-specific language (DSL) created for designers of **fuzzy logic** systems. With Fuzzion, users can simulate and evaluate fuzzy logic gates using variables and scopes to implement fuzzy logic functions. This language allows users to create and evaluate expressions involving fuzzy logic operations like **AND**, **OR**, and **NOT**, along with support for **TestGate**. The language is written in **Scala** and includes unit tests implemented using **ScalaTest**.
+**Fuzzion** is a domain-specific language (DSL) created for designers of **fuzzy logic** systems. With Fuzzion, users can simulate and evaluate fuzzy logic gates using variables and scopes to implement fuzzy logic functions. This language allows users to create and evaluate expressions involving fuzzy logic operations like **AND**, **OR**, **NOT** and **XOR**, along with support for **TestGate**. The language is written in **Scala** and includes unit tests implemented using **ScalaTest**.
 
 ---
 
