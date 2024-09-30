@@ -211,7 +211,7 @@ Fuzzion's present implementation is meant for expressions that range from simple
 
 ### **6. No Support for Complex Expression Evaluation**
 
-More complex expression compositions, like combining several gates into a single, huge expression using operator precedence or parentheses, are not supported by Fuzzion. Users cannot readily design large chains of logic without manually breaking them down into smaller portions, and they can only evaluate one operation at a time..
+More complex expression compositions, like combining several gates into a single, huge expression using operator precedence or parentheses, are not supported by Fuzzion. Users cannot readily design large chains of logic without manually breaking them down into smaller portions, and they can only evaluate one operation at a time.
 
 ---
 
