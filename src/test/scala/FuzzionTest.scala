@@ -46,7 +46,7 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
       assert(Fuzzion.eval(not_exp1) == 1.0) // NOT of 0.0 should return 1.0
     }
 
-    // Test for TestGate without threshold
+    // Test for TestGate
     it should "evaluate TestGate correctly" in {
       val testgate = Fuzzion.TestGate(Fuzzion.Literal(0.5))
       assert(Fuzzion.eval(testgate) == 1.0) // TestGate should return 1.0 for non-zero value (0.5)
