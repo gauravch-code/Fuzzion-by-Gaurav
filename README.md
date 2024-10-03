@@ -121,6 +121,10 @@ println(Fuzzion.eval(var_exp, scope)) // Expected: 0.42
 
 4. **Fixed Scoping Model**: Scopes are relatively simple. More advanced scoping features like nested or chained scopes, or visibility control, are not supported in this implementation.
 
+5. **Lack of Built-in Error Handling**: There is no explicit error handling mechanism in the language. If an undefined variable is used or if unexpected inputs are passed (e.g., expressions that don't match the expected types), the program may return default values (like 0.0) without throwing an exception or alerting the user.
+
+6. **No Type-Checking**: Fuzzion does not enforce any form of type checking, and it operates on the assumption that all expressions are of type Double. If a user attempts to create an expression with incompatible types or invalid inputs (e.g., mixing string or integer types), the program may fail silently or produce incorrect results without warning. Moreover, there is no function overloading to handle different types of inputs or operations.
+
 ## Future Enhancements
 
 1. **Composite Operations**: Adding support for defining custom gates and operations that combine multiple steps would greatly enhance flexibility.
