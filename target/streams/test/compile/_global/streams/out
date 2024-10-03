@@ -1,0 +1,25 @@
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E040] Syntax Error: C:\Users\gaura\IdeaProjects\Fuzzion\src\test\scala\FuzzionTest.scala:39:2 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m39 |[0m  }[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m  ^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m  ')' expected, but '}' found[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m-- [E007] Type Mismatch Error: C:\Users\gaura\IdeaProjects\Fuzzion\src\test\scala\FuzzionTest.scala:37:65 [0m[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m37 |[0m    [33mval[0m [36mtestgate_exp[0m = Fuzzion.TestGate(Fuzzion.Literal([31m1.0[0m).and(Fuzzion.Literal([31m0.5[0m), [31m0.5[0m)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m[31m   |[0m                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                                     Found:    (Fuzzion.Literal, Double)[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m                                     Required: Fuzzion.Expression[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m[0m
+[0m[[0m[31merror[0m] [0m[0m[31m   |[0m longer explanation available when compiling with `-explain`[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: C:\Users\gaura\IdeaProjects\Fuzzion\src\test\scala\FuzzionTest.scala:7:35 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m7 |[0m    [33mval[0m [36mexp[0m = Fuzzion.Literal([31m1.0[0m) and Fuzzion.Literal([31m1.0[0m)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m  |[0m                                   ^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m  |[0mAlphanumeric method and is not declared [33minfix[0m; it should not be used as infix operator.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m  |[0mInstead, use method syntax .and(...) or backticked identifier `and`.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m  |[0mThe latter can be rewritten automatically under -rewrite -source 3.4-migration.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m-- Warning: C:\Users\gaura\IdeaProjects\Fuzzion\src\test\scala\FuzzionTest.scala:38:4 [0m[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m38 |[0m    assert(Fuzzion.eval(testgate_exp, scope) == [31m1.0[0m)[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m[33m   |[0m    ^^^^^^[0m[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mAlphanumeric method assert is not declared [33minfix[0m; it should not be used as infix operator.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mInstead, use method syntax .assert(...) or backticked identifier `assert`.[0m
+[0m[[0m[33mwarn[0m] [0m[0m[33m   |[0mThe latter can be rewritten automatically under -rewrite -source 3.4-migration.[0m
+[0m[[0m[33mwarn[0m] [0m[0mtwo warnings found[0m
+[0m[[0m[31merror[0m] [0m[0mtwo errors found[0m
