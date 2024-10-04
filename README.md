@@ -122,15 +122,3 @@ println(Fuzzion.eval(var_exp, scope)) // Expected: 0.42
 4. **Lack of Built-in Error Handling**: Fuzzion lacks an explicit error-handling system. The program may return default values (such as 0.0) without raising an exception or notifying the user if an undefined variable is used or if unexpected inputs (such as expressions that don't match the expected types) are given.
 
 5. **No Type-Checking**: Fuzzion functions under the premise that all expressions are of type Double and does not impose any kind of type checking. Should a user endeavor to formulate an expression utilizing incompatible types or erroneous inputs (such as combining string and integer types), the software can malfunction quietly or yield inaccurate outcomes without prior notice. Furthermore, no function overloading is used to manage various input or operation types.
-
-## Future Enhancements
-
-1. **Composite Operations**: Adding support for defining custom gates and operations that combine multiple steps would greatly enhance flexibility.
-
-2. **Additional Arithmetic Operations**: Extending Fuzzion to include division, modulus, and other arithmetic functions.
-
-3. **Improved Precision Handling**: More robust handling of floating-point precision errors, especially in cases of small values.
-
-4. **Configurable Logic Thresholds**: Allowing users to define custom thresholds for fuzzy logic evaluation.
-
-
