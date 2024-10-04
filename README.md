@@ -113,17 +113,15 @@ println(Fuzzion.eval(var_exp, scope)) // Expected: 0.42
 
 ## Limitations
 
-1. **Limited Operations**: Currently, Fuzzion only supports basic fuzzy logic operations (`AND`, `OR`, `NOT`, `XOR`) and arithmetic (`ADD`, `MULTIPLY`). More complex functions like division, thresholds, or conditional logic are not implemented.
+1. **Limited Operations**: Fuzzion currently only supports arithmetic ({ADD{, {MULTIPLY{) and basic fuzzy logic operations ({AND`, {OR}, {NOT~, {XOR}). There is no implementation of more sophisticated functions like division, thresholds, or conditional logic.
    
-2. **Precision and Floating-Point Arithmetic**: Due to floating-point precision, results may not be exact for certain operations. Small differences (e.g., `1e-6`) are accounted for in tests, but real-world applications may need additional precision handling.
+2. **Precision and Floating-Point Arithmetic**: For some operations, results might not be exact due to floating-point precision. Tests account for small variances (e.g., {1e-6}), but more precise handling would be required for real-world applications.
 
-3. **No Support for Composite Gates**: Fuzzion does not currently support composite gates or multi-step evaluation pipelines. Operations must be executed one at a time.
+3. **Fixed Scoping Model**: The scopes used in Fuzzion are not too complicated. This implementation does not enable more sophisticated scoping capabilities like visibility control or nested or chained scopes.
 
-4. **Fixed Scoping Model**: Scopes are relatively simple. More advanced scoping features like nested or chained scopes, or visibility control, are not supported in this implementation.
+4. **Lack of Built-in Error Handling**: Fuzzion lacks an explicit error-handling system. The program may return default values (such as 0.0) without raising an exception or notifying the user if an undefined variable is used or if unexpected inputs (such as expressions that don't match the expected types) are given.
 
-5. **Lack of Built-in Error Handling**: There is no explicit error handling mechanism in the language. If an undefined variable is used or if unexpected inputs are passed (e.g., expressions that don't match the expected types), the program may return default values (like 0.0) without throwing an exception or alerting the user.
-
-6. **No Type-Checking**: Fuzzion does not enforce any form of type checking, and it operates on the assumption that all expressions are of type Double. If a user attempts to create an expression with incompatible types or invalid inputs (e.g., mixing string or integer types), the program may fail silently or produce incorrect results without warning. Moreover, there is no function overloading to handle different types of inputs or operations.
+5. **No Type-Checking**: Fuzzion functions under the premise that all expressions are of type Double and does not impose any kind of type checking. Should a user endeavor to formulate an expression utilizing incompatible types or erroneous inputs (such as combining string and integer types), the software can malfunction quietly or yield inaccurate outcomes without prior notice. Furthermore, no function overloading is used to manage various input or operation types.
 
 ## Future Enhancements
 
