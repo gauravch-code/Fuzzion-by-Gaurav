@@ -2,123 +2,221 @@
 
 # Fuzzion: A Fuzzy Logic Expression Language
 
-**Fuzzion** is a simple domain-specific language (DSL) for evaluating fuzzy logic expressions. It allows users to perform operations such as `AND`, `OR`, `NOT`, `XOR`, `ADD`, and `MULTIPLY` using fuzzy logic values. Additionally, it supports variable assignments and scoped evaluations.
+**Fuzzion** is a domain-specific language (DSL) for evaluating fuzzy logic expressions with support for object-oriented features. It allows users to perform fuzzy logic operations, define and inherit classes, invoke methods dynamically, and work with variable scoping and assignment. Fuzzion is built with flexibility in mind, allowing for a range of arithmetic and logic operations, as well as dynamic object-oriented programming features.
 
 ## Introduction
 
-Fuzzion allows users to create fuzzy logic expressions and evaluate them using a simple DSL built in Scala. Fuzzion supports standard fuzzy logic operations like `AND`, `OR`, and `NOT`, along with additional operations such as `XOR`, `ADD`, and `MULTIPLY`. The language also allows variable assignments and scoped evaluations for more complex expressions.
+Fuzzion allows users to create fuzzy logic expressions and evaluate them using a simple, expressive DSL. It supports basic fuzzy logic operations like `AND`, `OR`, `NOT`, `XOR`, as well as more advanced features like arithmetic operations (`ADD`, `MULTIPLY`), alpha-cut filtering, variable binding and scoping, and object-oriented constructs like classes, inheritance, method overriding, and dynamic dispatch.
 
 ## Features
-- Basic fuzzy logic operations: `AND`, `OR`, `NOT`, `XOR`
-- Arithmetic operations: `ADD`, `MULTIPLY`
-- Variable binding and assignment
-- Scoped evaluations
-- Test suite using ScalaTest
+
+- **Basic Fuzzy Logic Operations**: `AND`, `OR`, `NOT`, `XOR`
+- **Arithmetic Operations**: `ADD`, `MULTIPLY`
+- **Alpha-Cut Operation**: Filter fuzzy values based on a threshold
+- **Variable Binding and Assignment**
+- **Scoped Evaluations**
+- **Object-Oriented Programming**: Classes, inheritance, method overriding, nested classes, dynamic dispatch
+- **Test Suite**: Comprehensive tests using ScalaTest
 
 ## Prerequisites
+
 - Scala 3.x
 - SBT (Simple Build Tool)
 
 ## Installation and Setup
 
-To assemble and run the Fuzzion project, follow these steps:
+### Step 1: Clone the Repository
 
-1. **Clone the repository**:
-   ```bash
-   git clone https://github.com/your-username/Fuzzion.git
-   cd Fuzzion
-   ```
+To set up Fuzzion, first clone the project repository:
 
-2. **Install dependencies**:
-   Ensure you have Scala 3.x and SBT installed on your machine.
+```bash
+git clone https://github.com/your-username/Fuzzion.git
+cd Fuzzion
+```
 
-   Install Scala and SBT on Windows.
+### Step 2: Compile the Project
 
-3. **Compile the project**:
-   Run the following SBT command to compile the project:
-   ```bash
-   sbt compile
-   ```
+Run the following SBT command to compile the project:
+
+```bash
+sbt compile
+```
 
 ## Running the Program
 
 You can run the main Fuzzion application by executing the following SBT command:
+
 ```bash
 sbt run
 ```
 
-This will run the `FuzzionApp` object, which contains several sample expressions using the DSL. You will see the evaluation results of various fuzzy logic operations.
+This will run the `FuzzionApp` object, which contains several sample expressions using the DSL and object-oriented features. You will see the evaluation results of various fuzzy logic operations, alpha-cut functionality, and object-oriented expressions.
 
 ## Running Tests
 
 Fuzzion includes a comprehensive test suite using ScalaTest. To run the tests:
 
-1. Execute the following SBT command:
-   ```bash
-   sbt test
-   ```
-
-   This will run the tests defined in `FuzzionTest.scala`, verifying the correctness of fuzzy logic operations (`AND`, `OR`, `NOT`, `XOR`, `ADD`, `MULTIPLY`), variable assignment, and scoped evaluations.
-
-## Language Semantics
-
-### Basic Operations
-Fuzzion is designed to support fuzzy logic, where truth values range between 0 and 1. The operations behave as follows:
-
-- `AND`: Returns the smaller value of the two inputs.
-- `OR`: Returns the larger value of the two inputs.
-- `NOT`: Inverts the input value (i.e., `NOT x = 1.0 - x`).
-- `XOR`: Returns the absolute difference between the two input values.
-
-### Arithmetic Operations
-- `ADD`: Returns the sum of the two inputs.
-- `MULTIPLY`: Returns the product of the two inputs.
-
-### Variable Binding and Scoping
-Fuzzion supports variable binding and scoping through a `Scope` object. Variables can be assigned values within a scope and referenced within expressions. Scopes allow for isolated evaluation of expressions where variables can be re-bound or shadowed.
-
-Example:
-```scala
-val scope = new Fuzzion.Scope()
-scope.bind("x", Fuzzion.Literal(0.7)) // Bind variable 'x' to 0.7
-val var_exp = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
-Fuzzion.eval(var_exp, scope) // Expected: 0.7
+```bash
+sbt test
 ```
 
-### TestGate
-The `TestGate` operation evaluates whether an input is greater than zero. It returns `1.0` if the input is greater than zero, otherwise it returns `0.0`.
+This will run the tests defined in `FuzzionTest.scala`, verifying the correctness of fuzzy logic operations, alpha-cut, variable assignment, scoping, class inheritance, method overriding, dynamic method dispatch, and more.
 
 ## Creating and Evaluating Expressions
 
-To create and evaluate expressions in Fuzzion, you use the DSL-like syntax provided by the language. Here's a quick example:
+Fuzzion allows users to create fuzzy logic expressions using a DSL-like syntax. Expressions can be built using literals, variables, and a range of operations. Evaluation is handled by the `Fuzzion.eval` method.
 
+### Syntax and Semantics
+
+#### **Literals**
+
+Literals represent fixed values between 0 and 1 (fuzzy logic values). They form the simplest expression type in Fuzzion.
+
+**Example**:
 ```scala
-val and_exp = Fuzzion.Literal(0.6).and(Fuzzion.Literal(0.3))
-println(Fuzzion.eval(and_exp)) // Expected: 0.3
-
-val add_exp = Fuzzion.Literal(0.4).add(Fuzzion.Literal(0.5))
-println(Fuzzion.eval(add_exp)) // Expected: 0.9
-
-val scope = new Fuzzion.Scope()
-scope.bind("x", Fuzzion.Literal(0.7))
-val var_exp = Fuzzion.Variable("x").multiply(Fuzzion.Literal(0.6))
-println(Fuzzion.eval(var_exp, scope)) // Expected: 0.42
+val literal = Fuzzion.Literal(0.7)
+println(Fuzzion.eval(literal)) // Output: 0.7
 ```
 
-### Syntax Overview:
-- **Literals**: Represent fuzzy values. Example: `Fuzzion.Literal(0.7)`
-- **Variables**: Can be defined and bound within a `Scope`. Example: `Fuzzion.Variable("x")`
-- **Operations**: Operations like `and`, `or`, `xor`, `add`, and `multiply` can be performed using dot notation.
-- **Evaluation**: Expressions are evaluated using `Fuzzion.eval(expression, scope)`.
+#### **Fuzzy Logic Operations**
+
+- **AND**: Returns the smaller value of the two inputs.
+- **OR**: Returns the larger value of the two inputs.
+- **NOT**: Inverts the input value (`NOT x = 1.0 - x`).
+- **XOR**: Returns the absolute difference between the two input values.
+
+**Example**:
+```scala
+val andExp = Fuzzion.Literal(0.6).and(Fuzzion.Literal(0.3))
+println(Fuzzion.eval(andExp)) // Expected: 0.3
+```
+
+#### **Arithmetic Operations**
+
+- **ADD**: Adds two values together, capped at 1.0.
+- **MULTIPLY**: Returns the product of two inputs.
+
+**Example**:
+```scala
+val addExp = Fuzzion.Literal(0.4).add(Fuzzion.Literal(0.5))
+println(Fuzzion.eval(addExp)) // Expected: 0.9
+
+val multiplyExp = Fuzzion.Literal(0.4).multiply(Fuzzion.Literal(0.6))
+println(Fuzzion.eval(multiplyExp)) // Expected: 0.24
+```
+
+#### **Alpha-Cut Operation**
+
+The alpha-cut operation filters fuzzy values based on a threshold. If the value is greater than or equal to the alpha threshold, the value is retained. If not, the result is `0.0`.
+
+**Example**:
+```scala
+val alphaCutExp = Fuzzion.Literal(0.7).alphaCut(0.5)
+println(Fuzzion.eval(alphaCutExp)) // Expected: 0.7
+
+val alphaCutFail = Fuzzion.Literal(0.3).alphaCut(0.5)
+println(Fuzzion.eval(alphaCutFail)) // Expected: 0.0
+```
+
+#### **Variables and Scoping**
+
+Fuzzion allows binding variables within scopes. Variables can be assigned values and referenced later. Scoping ensures that variable assignments are local to a block of expressions and can be shadowed.
+
+**Example**:
+```scala
+val scope = new Fuzzion.Scope()
+scope.bind("x", Fuzzion.Literal(0.7))
+val varExp = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
+println(Fuzzion.eval(varExp, scope)) // Expected: 0.7
+```
+
+### Object-Oriented Features
+
+Fuzzion supports object-oriented programming constructs, allowing users to define classes, methods, and variables, along with support for inheritance, method overriding, and nested classes.
+
+#### **Class Definitions**
+
+Classes are defined using `ClassDef` with methods (`MethodDef`) and class variables (`ClassVar`). Classes can inherit from parent classes, and methods can be overridden in derived classes.
+
+**Syntax**:
+```scala
+val baseClass = Fuzzion.ClassDef("Base", List(Fuzzion.MethodDef("greet", List(), Fuzzion.Literal(1.0))))
+val derivedClass = Fuzzion.ClassDef("Derived", List(Fuzzion.MethodDef("greet", List(), Fuzzion.Literal(2.0))), Some(baseClass))
+
+val instance = Fuzzion.eval(Fuzzion.CreateNew(derivedClass)).asInstanceOf[Fuzzion.ClassInstance]
+println(Fuzzion.eval(Fuzzion.InvokeMethod(instance, "greet", List()))) // Expected: 2.0
+```
+
+#### **Inheritance and Method Overriding**
+
+Inheritance allows derived classes to override methods from the parent class. If a method is not overridden, the parent class’s method will be used.
+
+**Example**:
+```scala
+val baseClass = Fuzzion.ClassDef("Base", List(Fuzzion.MethodDef("calculate", List(), Fuzzion.Literal(10.0))))
+val derivedClass = Fuzzion.ClassDef("Derived", List(Fuzzion.MethodDef("calculate", List(), Fuzzion.Literal(20.0))), Some(baseClass))
+
+val instance = Fuzzion.eval(Fuzzion.CreateNew(derivedClass)).asInstanceOf[Fuzzion.ClassInstance]
+println(Fuzzion.eval(Fuzzion.InvokeMethod(instance, "calculate", List()))) // Expected: 20.0
+```
+
+#### **Nested Classes**
+
+Nested classes can access the outer class’s variables and methods. Scoping rules ensure that inner classes have access to outer class variables.
+
+**Example**:
+```scala
+val outerClass = Fuzzion.ClassDef("OuterClass", List(
+  Fuzzion.MethodDef("getOuterVar", List(), Fuzzion.AccessClassVar(Variable("this"), "outerVar"))
+), classVars = List(Fuzzion.ClassVar("outerVar", Fuzzion.VarType("Double"), Fuzzion.Literal(10.0))),
+nestedClasses = List(
+  Fuzzion.ClassDef("InnerClass", List(Fuzzion.MethodDef("getInnerVar", List(), Fuzzion.AccessClassVar(Variable("this"), "innerVar"))),
+  classVars = List(Fuzzion.ClassVar("innerVar", Fuzzion.VarType("Double"), Fuzzion.Literal(20.0)))))
+)
+
+val outerInstance = Fuzzion.eval(Fuzzion.CreateNew(outerClass)).asInstanceOf[Fuzzion.ClassInstance]
+val innerClass = outerClass.nestedClasses.head
+val innerInstance = Fuzzion.eval(Fuzzion.CreateNew(innerClass, Some(outerInstance))).asInstanceOf[Fuzzion.ClassInstance]
+
+println(Fuzzion.eval(Fuzzion.InvokeMethod(innerInstance, "getInnerVar", List()))) // Expected: 20.0
+```
+
+#### **Dynamic Dispatch**
+
+Dynamic dispatch allows Fuzzion to determine which method to invoke based on the runtime type of the instance. This allows for flexible method overriding and ensures that the correct method is called based on the actual object type.
+
+**Example**:
+```scala
+val baseClass = Fuzzion.ClassDef("Base", List(Fuzzion.MethodDef("getValue", List(), Fuzzion.Literal(10.0))))
+val derivedClass = Fuzzion.ClassDef("Derived", List(Fuzzion.MethodDef
+
+("getValue", List(), Fuzzion.Literal(20.0))), Some(baseClass))
+
+val baseInstance = Fuzzion.eval(Fuzzion.CreateNew(baseClass)).asInstanceOf[Fuzzion.ClassInstance]
+val derivedInstance = Fuzzion.eval(Fuzzion.CreateNew(derivedClass)).asInstanceOf[Fuzzion.ClassInstance]
+
+println(Fuzzion.eval(Fuzzion.InvokeMethod(baseInstance, "getValue", List()))) // Expected: 10.0
+println(Fuzzion.eval(Fuzzion.InvokeMethod(derivedInstance, "getValue", List()))) // Expected: 20.0
+```
 
 ## Limitations
 
-1. **Limited Operations**: Fuzzion currently only supports arithmetic ({ADD{, {MULTIPLY{) and basic fuzzy logic operations ({AND`, {OR}, {NOT~, {XOR}). There is no implementation of more sophisticated functions like division, thresholds, or conditional logic.
-   
-2. **Precision and Floating-Point Arithmetic**: For some operations, results might not be exact due to floating-point precision. Tests account for small variances (e.g., {1e-6}), but more precise handling would be required for real-world applications.
+1. **Limited Operations**: Fuzzion only supports arithmetic (`ADD`, `MULTIPLY`), basic fuzzy logic operations (`AND`, `OR`, `NOT`, `XOR`) and (`alpha-cut`) operation.
 
-3. **Fixed Scoping Model**: The scopes used in Fuzzion are not too complicated. This implementation does not enable more sophisticated scoping capabilities like visibility control or nested or chained scopes.
+2. **Precision and Floating-Point Arithmetic**: Floating-point precision can cause minor inaccuracies in calculations.
 
-4. **Lack of Built-in Error Handling**: Fuzzion lacks an explicit error-handling system. The program may return default values (such as 0.0) without raising an exception or notifying the user if an undefined variable is used or if unexpected inputs (such as expressions that don't match the expected types) are given.
+3. **Basic Scoping**: Fuzzion uses a simple scoping model without advanced features like visibility control (`private`, `protected`, `public`).
 
-5. **No Type-Checking**: Fuzzion functions under the premise that all expressions are of type Double and does not impose any kind of type checking. Should a user endeavor to formulate an expression utilizing incompatible types or erroneous inputs (such as combining string and integer types), the software can malfunction quietly or yield inaccurate outcomes without prior notice. Furthermore, no function overloading is used to manage various input or operation types.
+4. **No Error Handling**: Errors like undefined variables return default values instead of throwing exceptions.
+
+5. **No Type Checking**: Fuzzion assumes all expressions are `Double`. No type checking is performed, so incorrect input types may result in undefined behavior.
+
+6. **Multiple Inheritance Conflicts**: Fuzzion does not resolve conflicts in method or variable names when multiple inheritance is used.
+
+7. **No Method Overloading**: Fuzzion does not support method overloading (same method name with different parameters).
+
+8. **Limited Built-in Functions**: Fuzzion lacks built-in functions like math functions, string manipulation, or more advanced control structures (e.g., conditionals, loops).
+
+9. **No State Persistence**: Class instances do not maintain state across multiple evaluations.
+
+10. **Lack of Rich Object-Oriented Features**: Fuzzion lacks support for more advanced object-oriented features like abstract classes, interfaces, or polymorphism.
