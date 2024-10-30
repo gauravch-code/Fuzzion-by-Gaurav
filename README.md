@@ -218,5 +218,3 @@ println(Fuzzion.eval(Fuzzion.InvokeMethod(derivedInstance, "getValue", List())))
 8. **Limited Built-in Functions**: Fuzzion lacks built-in functions like math functions, string manipulation, or more advanced control structures (e.g., conditionals, loops).
 
 9. **No State Persistence**: Class instances do not maintain state across multiple evaluations.
-
-10. **Lack of Rich Object-Oriented Features**: Fuzzion lacks support for more advanced object-oriented features like abstract classes, interfaces, or polymorphism.
