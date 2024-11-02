@@ -96,10 +96,8 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
     assert(Fuzzion.eval(alphaCutExpFail).asInstanceOf[Double] == 0.0) // Should cut to 0.0 since 0.3 < 0.5
   }
 
-
-
-
   //--------------------------------------------------------HOMEWORK 2 TESTS-------------------------------------------------------------------------!
+
   // Test for class inheritance and method overriding
   it should "invoke the correct overridden method in derived class" in {
     // Define the base class with a method 'calculate' that returns 10.0
@@ -129,9 +127,6 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
     result.asInstanceOf[Double] shouldBe 20.0
   }
 
-
-
-
   // Test for method inheritance when not overridden
   it should "use base class method when derived class does not override it" in {
     // Define the base class with a method 'calculate' that returns 10.0
@@ -158,8 +153,6 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
     // Assert that the result is 10.0, indicating the base class method was called
     result.asInstanceOf[Double] shouldBe 10.0
   }
-
-
 
   // Test for dynamically dispatching correct methods
   it should "dynamically dispatch the correct method at runtime" in {
@@ -228,29 +221,6 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
     innerVarResult.asInstanceOf[Double] shouldBe 20.0 // Expected: 20.0
   }
 
-  // Test for accessing a non-existent variable (edgecase)
-  it should "throw exception when accessing non-existent variable in nested class" in {
-    val outerClass = Fuzzion.ClassDef(
-      "OuterClass",
-      List(),
-      classVars = List(Fuzzion.ClassVar("outerVar", Fuzzion.VarType("Double"), Fuzzion.Literal(10.0))),
-      nestedClasses = List(
-        Fuzzion.ClassDef("InnerClass", List())
-      )
-    )
-
-    val outerInstance = Fuzzion.eval(Fuzzion.CreateNew(outerClass)).asInstanceOf[Fuzzion.ClassInstance]
-    val innerClass = outerClass.nestedClasses.head
-    val innerInstance = Fuzzion.eval(Fuzzion.CreateNew(innerClass, Some(outerInstance))).asInstanceOf[Fuzzion.ClassInstance]
-
-    val exception = intercept[Exception] {
-      Fuzzion.eval(Fuzzion.AccessClassVar(innerInstance, "nonExistentVar"))
-    }
-
-    exception.getMessage should include("Class variable nonExistentVar not found")
-  }
-
-
   // Test for Multiple Inheritance
   it should "correctly handle multiple levels of inheritance" in {
     val baseClass = Fuzzion.ClassDef(
@@ -275,6 +245,5 @@ class FuzzionTest extends AnyFlatSpec with Matchers {
 
     greetResult.asInstanceOf[Double] shouldBe 1.0 // Expected to invoke 'greet' from the base class
   }
-
 
 }

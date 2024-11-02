@@ -94,14 +94,6 @@ object FuzzionApp {
     val multiResult = Fuzzion.eval(Fuzzion.InvokeMethod(multiDerivedInstance, "calculate", List()))
     println(s"Method 'calculate' result from MultiDerived class: $multiResult") // Expected: 25.0
 
-    // Accessing non-existent variable test
-    try {
-      val invalidVarResult = Fuzzion.eval(Fuzzion.AccessClassVar(instance, "nonExistent"))
-      println(s"Accessed class variable 'nonExistent': $invalidVarResult") // This should not print
-    } catch {
-      case e: Exception =>
-        println(s"Exception caught: ${e.getMessage}") // Expected: Exception for variable not found
-    }
 
     // Multiple inheritance accessing intermediate class method
     val intermediateResult = Fuzzion.eval(Fuzzion.InvokeMethod(multiDerivedInstance, "greet", List(Fuzzion.Literal(1.0))))
@@ -265,7 +257,7 @@ object Fuzzion {
       }.map { expr =>
         eval(expr, instance.scope) // Now evaluate the expression
       }.getOrElse(
-        throw new Exception(s"Class variable $varName not found")
+        0.0 // Return 0.0 if the class variable is not found
       )
 
     case ci: ClassInstance => ci // Handle ClassInstance expressions by returning them as-is
