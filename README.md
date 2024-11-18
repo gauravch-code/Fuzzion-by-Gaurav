@@ -352,5 +352,3 @@ it should "recursively simplify nested expressions during partial evaluation" in
 ## Conclusion
 
 Fuzzion is a powerful DSL for evaluating fuzzy logic expressions, enhanced with object-oriented features and advanced partial evaluation capabilities. It allows for flexible expression construction, supports dynamic method invocation with inheritance, and handles partial evaluations gracefully, maintaining expressions for undefined variables.
-
-This document provided an overview of Fuzzion's features, detailed explanations of its syntax and semantics, implementation details, and test cases demonstrating its capabilities. By integrating partial evaluation and reduction rules, Fuzzion can efficiently simplify expressions and handle undefined variables, making it suitable for scenarios where full information may not be available at evaluation time.
