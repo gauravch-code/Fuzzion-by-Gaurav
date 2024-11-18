@@ -5,9 +5,7 @@
 
 ## Introduction
 
-**Fuzzion** is a domain-specific language (DSL) for evaluating fuzzy logic expressions with support for object-oriented features and advanced partial evaluation techniques. It allows users to perform fuzzy logic operations, define and inherit classes, invoke methods dynamically, and work with variable scoping and assignment. Fuzzion is designed to be flexible and expressive, supporting a range of arithmetic and logic operations, as well as dynamic object-oriented programming features.
-
-This document serves as both a user guide and a report explaining the implementation and semantics of the Fuzzion language, including new features introduced in Homework 3, such as partial evaluation of expressions, conditional constructs (`IFTRUE` and `ELSERUn`), and advanced reduction rules.
+**Fuzzion** is a domain-specific language (DSL) for evaluating fuzzy logic expressions with support for object-oriented features and advanced partial evaluation techniques. It allows users to perform fuzzy logic operations, define and inherit classes, invoke methods dynamically, and work with variable scoping and assignment. Fuzzion is designed to be flexible and expressive, supporting a range of arithmetic and logic operations,  dynamic object-oriented programming features as well as partial evaluation of expressions, conditional constructs (`IFTRUE` and `ELSERUn`), and advanced reduction rules.
 
 
 
