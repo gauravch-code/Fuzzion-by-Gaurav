@@ -2,24 +2,24 @@ object FuzzionApp {
   def main(args: Array[String]): Unit = {
     println("Running Fuzzion...")
 
-    // Original expressions with fuzzy logic operations
-    val and_exp = Fuzzion.Literal(0.6).and(Fuzzion.Literal(0.3))
-    println(s"Evaluation result (0.6 AND 0.3): ${Fuzzion.eval(and_exp)}") // Expected: 0.3
+    // 1. Basic Fuzzy Logic Operations
+    val andExp = Fuzzion.Literal(0.6).and(Fuzzion.Literal(0.3))
+    println(s"Evaluation result (0.6 AND 0.3): ${Fuzzion.eval(andExp)}") // Expected: 0.3
 
-    val or_exp = Fuzzion.Literal(0.6).or(Fuzzion.Literal(0.3))
-    println(s"Evaluation result (0.6 OR 0.3): ${Fuzzion.eval(or_exp)}") // Expected: 0.6
+    val orExp = Fuzzion.Literal(0.6).or(Fuzzion.Literal(0.3))
+    println(s"Evaluation result (0.6 OR 0.3): ${Fuzzion.eval(orExp)}") // Expected: 0.6
 
-    val not_exp = Fuzzion.Literal(0.6).not
-    println(s"Evaluation result (NOT 0.6): ${Fuzzion.eval(not_exp)}") // Expected: 0.4
+    val notExp = Fuzzion.Literal(0.6).not
+    println(s"Evaluation result (NOT 0.6): ${Fuzzion.eval(notExp)}") // Expected: 0.4
 
-    val xor_exp = Fuzzion.Literal(0.7).xor(Fuzzion.Literal(0.4))
-    println(s"Evaluation result (0.7 XOR 0.4): ${Fuzzion.eval(xor_exp)}") // Expected: approximately 0.3
+    val xorExp = Fuzzion.Literal(0.7).xor(Fuzzion.Literal(0.4))
+    println(s"Evaluation result (0.7 XOR 0.4): ${Fuzzion.eval(xorExp)}") // Expected: 0.3
 
-    val add_exp = Fuzzion.Literal(0.4).add(Fuzzion.Literal(0.5))
-    println(s"Evaluation result (0.4 ADD 0.5): ${Fuzzion.eval(add_exp)}") // Expected: 0.9
+    val addExp = Fuzzion.Literal(0.4).add(Fuzzion.Literal(0.5))
+    println(s"Evaluation result (0.4 ADD 0.5): ${Fuzzion.eval(addExp)}") // Expected: 0.9
 
-    val multiply_exp = Fuzzion.Literal(0.4).multiply(Fuzzion.Literal(0.6))
-    println(s"Evaluation result (0.4 MULTIPLY 0.6): ${Fuzzion.eval(multiply_exp)}") // Expected: 0.24
+    val multiplyExp = Fuzzion.Literal(0.4).multiply(Fuzzion.Literal(0.6))
+    println(s"Evaluation result (0.4 MULTIPLY 0.6): ${Fuzzion.eval(multiplyExp)}") // Expected: 0.24
 
     val alphaCutExp = Fuzzion.Literal(0.7).alphaCut(0.5)
     println(s"Alpha-cut result (alpha = 0.5, value = 0.7): ${Fuzzion.eval(alphaCutExp)}") // Expected: 0.7
@@ -27,85 +27,142 @@ object FuzzionApp {
     val alphaCutExpFail = Fuzzion.Literal(0.3).alphaCut(0.5)
     println(s"Alpha-cut result (alpha = 0.5, value = 0.3): ${Fuzzion.eval(alphaCutExpFail)}") // Expected: 0.0
 
-    // Using variables and scopes
+    // 2. Using Variables and Scopes
     val scope = new Fuzzion.Scope()
     scope.bind("x", Fuzzion.Literal(0.7)) // Bind variable 'x' to 0.7
-    val var_exp = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
-    println(s"Evaluation result (x AND 1.0), where x=0.7: ${Fuzzion.eval(var_exp, scope)}") // Expected: 0.7
+    val varExp = Fuzzion.Variable("x").and(Fuzzion.Literal(1.0))
+    println(s"Evaluation result (x AND 1.0), where x=0.7: ${Fuzzion.eval(varExp, scope)}") // Expected: 0.7
 
-    // Test with variable assignment and custom evaluation
-    val assign_exp = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
-    println(s"Evaluation of Assign (y = 0.5): ${Fuzzion.eval(assign_exp, scope)}") // Expected: 0.5
+    // 3. Variable Assignment
+    val assignExp = Fuzzion.Assign("y", Fuzzion.Literal(0.5))
+    println(s"Evaluation of Assign (y = 0.5): ${Fuzzion.eval(assignExp, scope)}") // Expected: 0.5
 
-    // Using TestGate
-    val testgate_exp = Fuzzion.TestGate(Fuzzion.Literal(0.5))
-    println(s"TestGate result (0.5): ${Fuzzion.eval(testgate_exp, scope)}") // Expected: 1.0
+    // 4. TestGate Example
+    val testGateExp = Fuzzion.TestGate(Fuzzion.Literal(0.5))
+    println(s"TestGate result (0.5): ${Fuzzion.eval(testGateExp, scope)}") // Expected: 1.0
 
-    // Class, inheritance, method invocation
+    // 5. Class Definitions, Inheritance, and Method Invocation
     val baseClass = Fuzzion.ClassDef(
-      "Base",
-      List(
-        Fuzzion.MethodDef("greet", List(Fuzzion.Parameter("name", "String")), Fuzzion.Literal(1.0))
+      name = "Base",
+      methods = List(
+        Fuzzion.MethodDef(
+          name = "greet",
+          params = List(Fuzzion.Parameter("name", "String")),
+          body = Fuzzion.Literal(1.0) // Returns 1.0 as a greeting
+        )
       ),
-      classVars = List(Fuzzion.ClassVar("greeting", Fuzzion.VarType("String"), Fuzzion.Literal(1.0)))
+      classVars = List(
+        Fuzzion.ClassVar(
+          name = "baseVar",
+          varType = Fuzzion.VarType("Double"),
+          initialValue = Fuzzion.Literal(10.0)
+        )
+      )
     )
 
     val derivedClass = Fuzzion.ClassDef(
-      "Derived",
-      List(
-        Fuzzion.MethodDef("greet", List(Fuzzion.Parameter("name", "String")), Fuzzion.Literal(2.0))
+      name = "Derived",
+      methods = List(
+        Fuzzion.MethodDef(
+          name = "greet",
+          params = List(Fuzzion.Parameter("name", "String")),
+          body = Fuzzion.Literal(2.0) // Overrides to return 2.0
+        )
       ),
-      Some(baseClass),
-      classVars = List(Fuzzion.ClassVar("farewell", Fuzzion.VarType("String"), Fuzzion.Literal(2.0)))
+      parent = Some(baseClass),
+      classVars = List(
+        Fuzzion.ClassVar(
+          name = "derivedVar",
+          varType = Fuzzion.VarType("Double"),
+          initialValue = Fuzzion.Literal(20.0) // Example initialization
+        )
+      )
     )
 
-    // Create instance of derived class and invoke method
-    val instance = Fuzzion.eval(Fuzzion.CreateNew(derivedClass)).asInstanceOf[Fuzzion.ClassInstance]
-    val result = Fuzzion.eval(Fuzzion.InvokeMethod(instance, "greet", List(Fuzzion.Literal(1.0))))
-    println(s"Method 'greet' result from Derived class: $result") // Expected: 2.0
-
-    // Create instance of base class and invoke method
+    // 5.1. Creating Instances and Invoking Methods
+    val derivedInstance = Fuzzion.eval(Fuzzion.CreateNew(derivedClass)).asInstanceOf[Fuzzion.ClassInstance]
     val baseInstance = Fuzzion.eval(Fuzzion.CreateNew(baseClass)).asInstanceOf[Fuzzion.ClassInstance]
-    val baseResult = Fuzzion.eval(Fuzzion.InvokeMethod(baseInstance, "greet", List(Fuzzion.Literal(1.0))))
-    println(s"Method 'greet' result from Base class: $baseResult") // Expected: 1.0
 
-    // Access class variable
-    val varResult = Fuzzion.eval(Fuzzion.AccessClassVar(instance, "farewell"))
-    println(s"Accessed class variable 'farewell': $varResult") // Expected: 2.0
+    val greetDerived = Fuzzion.eval(Fuzzion.InvokeMethod(derivedInstance, "greet", List(Fuzzion.Literal(1.0))))
+    println(s"Method 'greet' result from Derived class: $greetDerived") // Expected: 2.0
 
-    // Multiple inheritance test
-    val intermediateClass = Fuzzion.ClassDef(
-      "Intermediate",
-      List(
-        Fuzzion.MethodDef("calculate", List(), Fuzzion.Literal(15.0))
+    val greetBase = Fuzzion.eval(Fuzzion.InvokeMethod(baseInstance, "greet", List(Fuzzion.Literal(1.0))))
+    println(s"Method 'greet' result from Base class: $greetBase") // Expected: 1.0
+
+    // 5.2. Accessing Class Variables
+    val derivedVar = Fuzzion.eval(Fuzzion.AccessClassVar(derivedInstance, "derivedVar"))
+    println(s"Derived class variable 'derivedVar': $derivedVar") // Expected: 20.0
+
+    val baseVar = Fuzzion.eval(Fuzzion.AccessClassVar(baseInstance, "baseVar"))
+    println(s"Base class variable 'baseVar': $baseVar") // Expected: 10.0
+
+    // 6. Nested Classes Accessing Parent Class Variables and Methods
+    val innerClass = Fuzzion.ClassDef(
+      name = "Inner",
+      methods = List(
+        Fuzzion.MethodDef(
+          name = "getInnerVar",
+          params = List(),
+          body = Fuzzion.AccessClassVar(Fuzzion.Variable("this"), "derivedVar") // Accessing parent class variable
+        )
       ),
-      Some(baseClass)
+      parent = Some(derivedClass),
+      classVars = List(
+        Fuzzion.ClassVar(
+          name = "innerVar",
+          varType = Fuzzion.VarType("Double"),
+          initialValue = Fuzzion.Literal(30.0)
+        )
+      )
     )
 
-    val multiDerivedClass = Fuzzion.ClassDef(
-      "MultiDerived",
-      List(
-        Fuzzion.MethodDef("calculate", List(), Fuzzion.Literal(25.0))
-      ),
-      Some(intermediateClass)
+    val innerInstance = Fuzzion.eval(Fuzzion.CreateNew(innerClass, Some(derivedInstance))).asInstanceOf[Fuzzion.ClassInstance]
+
+    val innerVar = Fuzzion.eval(Fuzzion.AccessClassVar(innerInstance, "innerVar"))
+    println(s"Inner class variable 'innerVar': $innerVar") // Expected: 30.0
+
+    val getInnerVar = Fuzzion.eval(Fuzzion.InvokeMethod(innerInstance, "getInnerVar", List()))
+    println(s"Inner class method 'getInnerVar' result: $getInnerVar") // Expected: 20.0
+
+    // 7. Conditional Constructs (`IFTRUE`)
+    val conditionalExp = Fuzzion.IFTRUE(
+      Fuzzion.GreaterEqual(Fuzzion.Variable("x"), Fuzzion.Literal(5.0)),
+      // Then branch: Assign y = x + 3
+      Fuzzion.Assign("y", Fuzzion.Add(Fuzzion.Variable("x"), Fuzzion.Literal(3.0))),
+      // Else branch: Assign y = x * 2
+      Fuzzion.Assign("y", Fuzzion.Multiply(Fuzzion.Variable("x"), Fuzzion.Literal(2.0)))
     )
 
-    val multiDerivedInstance = Fuzzion.eval(Fuzzion.CreateNew(multiDerivedClass)).asInstanceOf[Fuzzion.ClassInstance]
-    val multiResult = Fuzzion.eval(Fuzzion.InvokeMethod(multiDerivedInstance, "calculate", List()))
-    println(s"Method 'calculate' result from MultiDerived class: $multiResult") // Expected: 25.0
+    // 7.1. Evaluate with x = 6.0 (condition true)
+    val scopeCondTrue = new Fuzzion.Scope()
+    scopeCondTrue.bind("x", Fuzzion.Literal(6.0))
+    println(s"Evaluating IFTRUE with x=6.0")
+    val resultTrue = Fuzzion.eval(conditionalExp, scopeCondTrue)
+    println(s"Result of IFTRUE: $resultTrue") // Expected: 9.0
+    println(s"Value of 'y' after IFTRUE: ${Fuzzion.eval(Fuzzion.Variable("y"), scopeCondTrue)}") // Expected: 9.0
 
+    // 7.2. Evaluate with x = 3.0 (condition false)
+    val scopeCondFalse = new Fuzzion.Scope()
+    scopeCondFalse.bind("x", Fuzzion.Literal(3.0))
+    println(s"Evaluating IFTRUE with x=3.0")
+    val resultFalse = Fuzzion.eval(conditionalExp, scopeCondFalse)
+    println(s"Result of IFTRUE: $resultFalse") // Expected: 6.0
+    println(s"Value of 'y' after IFTRUE: ${Fuzzion.eval(Fuzzion.Variable("y"), scopeCondFalse)}") // Expected: 6.0
 
-    // Multiple inheritance accessing intermediate class method
-    val intermediateResult = Fuzzion.eval(Fuzzion.InvokeMethod(multiDerivedInstance, "greet", List(Fuzzion.Literal(1.0))))
-    println(s"Method 'greet' result from MultiDerived class (inherited from Base): $intermediateResult") // Expected: 1.0
+    // 7.3. Evaluate with x undefined (partial evaluation)
+    val scopePartial = new Fuzzion.Scope()
+    println(s"Evaluating IFTRUE with x undefined")
+    val resultPartial = Fuzzion.eval(conditionalExp, scopePartial)
+    println(s"Result of IFTRUE: $resultPartial") // Expected: PartialExpression(IFTRUE(...))
+    println(s"Value of 'y' after IFTRUE: ${Fuzzion.eval(Fuzzion.Variable("y"), scopePartial)}") // Expected: PartialExpression(...)
   }
 }
-
 
 object Fuzzion {
 
   trait Expression
 
+  // Base constructs
   case class Literal(value: Double) extends Expression
   case class Variable(name: String) extends Expression
   case class Assign(name: String, expr: Expression) extends Expression
@@ -116,7 +173,15 @@ object Fuzzion {
   case class Xor(lhs: Expression, rhs: Expression) extends Expression
   case class Add(lhs: Expression, rhs: Expression) extends Expression
   case class Multiply(lhs: Expression, rhs: Expression) extends Expression
-  case class AlphaCut(expr: Expression, alpha: Double) extends Expression // New alpha-cut operation
+  case class AlphaCut(expr: Expression, alpha: Double) extends Expression
+  case class IFTRUE(condition: Expression, thenBranch: Expression, elseBranch: Expression) extends Expression
+  case class GreaterEqual(lhs: Expression, rhs: Expression) extends Expression
+
+  // Newly added constructs for Homework 3
+  case class ELSERUn(elseBranch: Expression) extends Expression
+  case class THENEXECUTE(thenBranch: Expression) extends Expression
+
+  // Class definitions and method constructs
   case class ClassDef(
                        name: String,
                        methods: List[MethodDef],
@@ -124,15 +189,18 @@ object Fuzzion {
                        classVars: List[ClassVar] = List(),
                        nestedClasses: List[ClassDef] = List()
                      ) extends Expression
+
   case class MethodDef(name: String, params: List[Parameter], body: Expression) extends Expression
   case class Parameter(name: String, paramType: String) extends Expression
   case class ClassVar(name: String, varType: VarType, initialValue: Expression) extends Expression
   case class VarType(typeName: String) extends Expression
   case class InvokeMethod(instance: ClassInstance, methodName: String, args: List[Expression]) extends Expression
-  case class CreateNew(cls: ClassDef, parentInstance: Option[ClassInstance] = None) extends Expression
+  case class CreateNew(cls: ClassDef, parentInstanceOpt: Option[ClassInstance] = None) extends Expression
   case class ClassInstance(cls: ClassDef, scope: Scope = new Scope()) extends Expression
   case class AccessClassVar(instanceExpr: Expression, varName: String) extends Expression
+  case class PartialExpression(expr: Expression) extends Expression
 
+  // Scope class to manage variable bindings and inheritance
   class Scope(val parent: Option[Scope] = None) {
     private val variables = scala.collection.mutable.Map[String, Expression]()
     private val methods = scala.collection.mutable.Map[String, MethodDef]()
@@ -161,111 +229,247 @@ object Fuzzion {
     def resolveClassVar(name: String): Option[Expression] = {
       classVariables.get(name).orElse(parent.flatMap(_.resolveClassVar(name)))
     }
+
+    // Method to retrieve all variable bindings (for testing and merging purposes)
+    def getAllVariables: Map[String, Expression] = variables.toMap
   }
 
-  // Evaluation function
+  // Evaluator function
   def eval(expr: Expression, scope: Scope = new Scope()): Any = expr match {
     case Literal(value) => value
+
     case Variable(name) =>
       scope.resolve(name) match {
-        case Some(expr) => eval(expr, scope)
-        case None       => throw new Exception(s"Variable $name not found")
+        case Some(Literal(v)) => v
+        case Some(e: Expression) => e
+        case None => Variable(name)
       }
-    case Assign(name, value) =>
-      val evaluatedValue = eval(value, scope)
-      scope.bind(name, Literal(evaluatedValue.asInstanceOf[Double]))
-      evaluatedValue
-    case TestGate(expr) =>
-      val result = eval(expr, scope).asInstanceOf[Double]
-      if (result > 0.0) 1.0 else 0.0
-    case Not(e) => 1.0 - eval(e, scope).asInstanceOf[Double] // Fuzzy logic NOT operation
-    case Or(lhs, rhs) => math.max(eval(lhs, scope).asInstanceOf[Double], eval(rhs, scope).asInstanceOf[Double]) // Fuzzy logic OR operation
-    case And(lhs, rhs) => math.min(eval(lhs, scope).asInstanceOf[Double], eval(rhs, scope).asInstanceOf[Double]) // Fuzzy logic AND operation
-    case Xor(lhs, rhs) => math.abs(eval(lhs, scope).asInstanceOf[Double] - eval(rhs, scope).asInstanceOf[Double]) // Fuzzy logic XOR operation
+
+    case Assign(name, exprInner) =>
+      val evaluatedValue = eval(exprInner, scope) match {
+        case v: Double => Literal(v)
+        case e: Expression => e
+      }
+      scope.bind(name, evaluatedValue)
+      evaluatedValue match {
+        case Literal(v) => v
+        case e: Expression => e
+      }
+
+    // Evaluating new constructs
+    case ELSERUn(elseBranch) => eval(elseBranch, scope)
+    case THENEXECUTE(thenBranch) => eval(thenBranch, scope)
+
     case Add(lhs, rhs) =>
-      val sum = eval(lhs, scope).asInstanceOf[Double] + eval(rhs, scope).asInstanceOf[Double]
-      math.min(1.0, sum) // Cap at 1.0 for fuzzy addition
-    case Multiply(lhs, rhs) => eval(lhs, scope).asInstanceOf[Double] * eval(rhs, scope).asInstanceOf[Double] // Fuzzy multiplication
-    case AlphaCut(expr, alpha) =>
-      val value = eval(expr, scope).asInstanceOf[Double]
-      if (value >= alpha) value else 0.0
-
-    case ClassDef(name, methods, parent, classVars, nestedClasses) =>
-      classVars.foreach(v => scope.bindClassVar(v.name, v.initialValue))
-      methods.foreach(m => scope.bindMethod(m.name, m))
-      nestedClasses.foreach(nestedClass => eval(nestedClass, scope)) // Recursively evaluate nested classes
-      0.0 // Class does not evaluate to a value directly
-
-    case CreateNew(cls, parentInstance) =>
-      val newScope = new Scope(parentInstance.map(_.scope))
-      cls.classVars.foreach { v =>
-        newScope.bindClassVar(v.name, v.initialValue)
+      val simplifiedExpr = simplifyAdd(Add(lhs, rhs), scope)
+      simplifiedExpr match {
+        case Literal(value) => value
+        case expr => PartialExpression(expr)
       }
-      // Initialize parent class variables
-      cls.parent.foreach { parentCls =>
-        parentCls.classVars.foreach { v =>
-          newScope.bindClassVar(v.name, v.initialValue)
-        }
-      }
-      ClassInstance(cls, newScope)
 
-    case InvokeMethod(instance: ClassInstance, methodName: String, args: List[Expression]) =>
+    case Multiply(lhs, rhs) =>
+      val simplifiedExpr = simplifyMultiply(Multiply(lhs, rhs), scope)
+      simplifiedExpr match {
+        case Literal(value) => value
+        case expr => PartialExpression(expr)
+      }
+
+    case And(lhs, rhs) =>
+      (eval(lhs, scope), eval(rhs, scope)) match {
+        case (l: Double, r: Double) => math.min(l, r) // Logical AND
+        case (l: Double, rExpr: Expression) => PartialExpression(And(Literal(l), rExpr))
+        case (lExpr: Expression, r: Double) => PartialExpression(And(lExpr, Literal(r)))
+        case (lExpr: Expression, rExpr: Expression) => PartialExpression(And(lExpr, rExpr))
+        case _ => throw new MatchError(s"Unsupported AND operands: $lhs, $rhs")
+      }
+
+    case Or(lhs, rhs) =>
+      (eval(lhs, scope), eval(rhs, scope)) match {
+        case (l: Double, r: Double) => math.max(l, r) // Logical OR
+        case (l: Double, rExpr: Expression) => PartialExpression(Or(Literal(l), rExpr))
+        case (lExpr: Expression, r: Double) => PartialExpression(Or(lExpr, Literal(r)))
+        case (lExpr: Expression, rExpr: Expression) => PartialExpression(Or(lExpr, rExpr))
+        case _ => throw new MatchError(s"Unsupported OR operands: $lhs, $rhs")
+      }
+
+    case Xor(lhs, rhs) =>
+      (eval(lhs, scope), eval(rhs, scope)) match {
+        case (l: Double, r: Double) => math.abs(l - r)
+        case (l: Double, rExpr: Expression) => PartialExpression(Xor(Literal(l), rExpr))
+        case (lExpr: Expression, r: Double) => PartialExpression(Xor(lExpr, Literal(r)))
+        case (lExpr: Expression, rExpr: Expression) => PartialExpression(Xor(lExpr, rExpr))
+        case _ => throw new MatchError(s"Unsupported XOR operands: $lhs, $rhs")
+      }
+
+    case Not(exprInner) =>
+      eval(exprInner, scope) match {
+        case v: Double => math.max(0.0, 1.0 - v)
+        case e: Expression => PartialExpression(Not(e))
+      }
+
+    case TestGate(innerExpr) =>
+      eval(innerExpr, scope) match {
+        case value: Double =>
+          if (value > 0) 1.0 else 0.0 // Return 1.0 if the value is positive, otherwise 0.0
+        case Literal(value: Double) =>
+          if (value > 0) 1.0 else 0.0 // Return 1.0 for positive values, otherwise 0.0
+        case partialExpr: Expression =>
+          PartialExpression(TestGate(partialExpr)) // Handle partial expressions
+        case unsupported =>
+          throw new MatchError(s"Unsupported TestGate inner expression: $unsupported")
+      }
+
+    case AlphaCut(exprInner, alpha) =>
+      eval(exprInner, scope) match {
+        case v: Double => if (v >= alpha) v else 0.0
+        case e: Expression => PartialExpression(AlphaCut(e, alpha))
+      }
+
+    case GreaterEqual(lhs, rhs) =>
+      (eval(lhs, scope), eval(rhs, scope)) match {
+        case (l: Double, r: Double) => if (l >= r) 1.0 else 0.0
+        case (l: Double, rExpr: Expression) => PartialExpression(GreaterEqual(Literal(l), rExpr))
+        case (lExpr: Expression, r: Double) => PartialExpression(GreaterEqual(lExpr, Literal(r)))
+        case (lExpr: Expression, rExpr: Expression) => PartialExpression(GreaterEqual(lExpr, rExpr))
+        case _ => throw new MatchError(s"Unsupported GREATER EQUAL operands: $lhs, $rhs")
+      }
+
+    case IFTRUE(condition, thenBranch, elseBranch) =>
+      eval(condition, scope) match {
+        case v: Double =>
+          if (v >= 0.5) {
+            eval(thenBranch, scope)
+          } else {
+            eval(elseBranch, scope)
+          }
+        case condExpr: Expression => // Represents a partially evaluated condition
+          // Partially evaluate both branches
+          val partiallyEvaluatedThen = eval(thenBranch, scope) match {
+            case expr: Expression => expr
+            case other => PartialExpression(thenBranch)
+          }
+          val partiallyEvaluatedElse = eval(elseBranch, scope) match {
+            case expr: Expression => expr
+            case other => PartialExpression(elseBranch)
+          }
+          PartialExpression(IFTRUE(condExpr, partiallyEvaluatedThen, partiallyEvaluatedElse))
+        case _ =>
+          throw new MatchError(s"Unsupported IFTRUE condition: $condition")
+      }
+
+    case InvokeMethod(instance: ClassInstance, methodName, args) =>
       val clsToSearch = Option(instance.cls).getOrElse(
         throw new Exception("Class for the instance is not defined")
       )
       val method = findMethod(clsToSearch, methodName).getOrElse(
         throw new Exception(s"Method $methodName not found")
       )
-
-      // Create a new scope for the method call, with instance.scope as parent
+      val evaluatedArgs = args.map(arg => eval(arg, scope))
+      // Create a new scope for method execution
       val methodScope = new Scope(Some(instance.scope))
-
-      // Bind 'this' to the instance
-      methodScope.bind("this", instance)
-
-      // Bind the method's parameters to the provided arguments
-      method.params.zip(args).foreach { case (param, argExpr) =>
-        val evaluatedArg = eval(argExpr, scope) // Evaluate argument in the current scope
-        methodScope.bind(param.name, Literal(evaluatedArg.asInstanceOf[Double])) // Bind to method scope
+      // Bind parameters
+      method.params.zip(evaluatedArgs).foreach { case (param, argExpr) =>
+        methodScope.bind(param.name, argExpr match {
+          case v: Double => Literal(v)
+          case e: Expression => e
+        })
       }
-
-      // Evaluate the method body within the method scope
+      // Evaluate method body
       eval(method.body, methodScope)
 
-    case AccessClassVar(instanceExpr: Expression, varName: String) =>
+    case AccessClassVar(instanceExpr, varName) =>
       val instance = eval(instanceExpr, scope) match {
         case ci: ClassInstance => ci
-        case other             => throw new Exception(s"Expected ClassInstance, got $other")
+        case other => throw new Exception(s"AccessClassVar expects a ClassInstance, got: $other")
       }
-      // Try to resolve in the current class scope
-      instance.scope.resolveClassVar(varName).orElse {
-        // If not found, traverse the parent class hierarchy
-        def resolveInParent(clsOpt: Option[ClassDef]): Option[Expression] = {
-          clsOpt match {
-            case Some(cls) =>
-              cls.classVars.find(_.name == varName).map { classVar =>
-                // Return the initial value expression without evaluating it
-                classVar.initialValue
-              }.orElse {
-                resolveInParent(cls.parent) // Recursively check the parent
-              }
-            case None => None
-          }
+      instance.scope.resolveClassVar(varName) match {
+        case Some(Literal(v)) => v
+        case Some(e: Expression) => e
+        case None => throw new Exception(s"Class variable $varName not found")
+      }
+
+    case CreateNew(cls, parentInstanceOpt) =>
+      // Create a new scope, optionally inheriting from a parent instance's scope
+      val newScope = new Scope(parentInstanceOpt.map(_.scope))
+      // Initialize class variables
+      cls.classVars.foreach { v =>
+        val value = eval(v.initialValue, newScope) match {
+          case v: Double => Literal(v)
+          case e: Expression => e
         }
+        newScope.bindClassVar(v.name, value)
+      }
+      // Initialize parent class variables if inheritance exists
+      cls.parent.foreach { parentCls =>
+        parentCls.classVars.foreach { v =>
+          val value = eval(v.initialValue, newScope) match {
+            case v: Double => Literal(v)
+            case e: Expression => e
+          }
+          newScope.bindClassVar(v.name, value)
+        }
+      }
+      // Create the ClassInstance
+      val instance = ClassInstance(cls, newScope)
+      newScope.bind("this", instance)
+      instance
 
-        resolveInParent(Some(instance.cls))
-      }.map { expr =>
-        eval(expr, instance.scope) // Now evaluate the expression
-      }.getOrElse(
-        0.0 // Return 0.0 if the class variable is not found
-      )
+    // Handle PartialExpression
+    case PartialExpression(e) => PartialExpression(e)
 
-    case ci: ClassInstance => ci // Handle ClassInstance expressions by returning them as-is
+    // Explicitly handle ClassInstance objects
+    case ci: ClassInstance => ci
 
-    case _ => throw new MatchError(s"Unsupported expression: $expr")
+    case _ =>
+      throw new MatchError(s"Unsupported expression: $expr")
   }
 
-  // Implicit class for DSL-like syntax for AND, OR, XOR, ADD, MULTIPLY, and ALPHA-CUT
+  // Helper method to find a method in class hierarchy
+  def findMethod(cls: ClassDef, methodName: String): Option[MethodDef] = {
+    cls.methods.find(_.name == methodName).orElse(cls.parent.flatMap(findMethod(_, methodName)))
+  }
+
+  // Helper functions for expression simplification
+  def simplifyAdd(expr: Expression, scope: Scope): Expression = expr match {
+    case Add(left, right) =>
+      val leftSimplified = simplifyAdd(evalToExpression(left, scope), scope)
+      val rightSimplified = simplifyAdd(evalToExpression(right, scope), scope)
+      (leftSimplified, rightSimplified) match {
+        case (Literal(lv), Literal(rv)) => Literal(lv + rv)
+        case (Literal(0), rExpr) => rExpr
+        case (lExpr, Literal(0)) => lExpr
+        case (lExpr, rExpr) => Add(lExpr, rExpr)
+      }
+    case PartialExpression(e) => e // Unwrap PartialExpression
+    case other => evalToExpression(other, scope)
+  }
+
+  def simplifyMultiply(expr: Expression, scope: Scope): Expression = expr match {
+    case Multiply(left, right) =>
+      val leftSimplified = simplifyMultiply(evalToExpression(left, scope), scope)
+      val rightSimplified = simplifyMultiply(evalToExpression(right, scope), scope)
+      (leftSimplified, rightSimplified) match {
+        case (Literal(lv), Literal(rv)) => Literal(lv * rv)
+        case (Literal(1), rExpr) => rExpr
+        case (lExpr, Literal(1)) => lExpr
+        case (Literal(0), _) => Literal(0)
+        case (_, Literal(0)) => Literal(0)
+        case (lExpr, rExpr) => Multiply(lExpr, rExpr)
+      }
+    case PartialExpression(e) => e // Unwrap PartialExpression
+    case other => evalToExpression(other, scope)
+  }
+
+  def evalToExpression(expr: Expression, scope: Scope): Expression = {
+    eval(expr, scope) match {
+      case v: Double => Literal(v)
+      case PartialExpression(e) => e // Unwrap PartialExpression
+      case e: Expression => e
+      case other => throw new MatchError(s"Unsupported eval result: $other")
+    }
+  }
+
+  // Implicit class to add operator methods to Expression
   implicit class ExpressionOps(lhs: Expression) {
     def and(rhs: Expression): Expression = And(lhs, rhs)
     def or(rhs: Expression): Expression = Or(lhs, rhs)
@@ -274,11 +478,9 @@ object Fuzzion {
     def multiply(rhs: Expression): Expression = Multiply(lhs, rhs)
     def not: Expression = Not(lhs)
     def alphaCut(alpha: Double): Expression = AlphaCut(lhs, alpha)
-  }
-
-  // Helper to find a method in a class hierarchy (for inheritance)
-  def findMethod(cls: ClassDef, methodName: String): Option[MethodDef] = {
-    // First check the current class, then check the parent class if necessary
-    cls.methods.find(_.name == methodName).orElse(cls.parent.flatMap(findMethod(_, methodName)))
+    def greaterEqual(rhs: Expression): Expression = GreaterEqual(lhs, rhs)
+    def iftrue(condition: Expression, thenBranch: Expression, elseBranch: Expression): Expression =
+      IFTRUE(condition, thenBranch, elseBranch)
   }
 }
+

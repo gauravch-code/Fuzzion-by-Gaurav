@@ -1,4 +1,4 @@
-[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(FuzzionTest, org.scalatest.tools.Framework$$anon$1@36b37c11, false, [SuiteSelector])[0m
+[0m[[0m[0mdebug[0m] [0m[0mRunning TaskDef(FuzzionTest, org.scalatest.tools.Framework$$anon$1@5778140f, false, [SuiteSelector])[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mFuzzionTest:[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate AND gate correctly with fuzzy logic inputs[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate OR gate correctly with fuzzy logic inputs[0m[0m
@@ -10,10 +10,26 @@
 [0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate TestGate correctly[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should correctly bind variable and evaluate in scope[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32m- should handle variable assignment and retrieval correctly[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 504 milliseconds.[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 10[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should perform alpha-cut correctly[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should invoke the correct overridden method in derived class[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should use base class method when derived class does not override it[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should dynamically dispatch the correct method at runtime[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should instantiate classes and initialize class variables correctly[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should allow nested classes to access parent class variables and methods[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should correctly handle multiple levels of inheritance[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate IFTRUE correctly when condition is fully defined (true)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate IFTRUE correctly when condition is fully defined (false)[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should partially evaluate IFTRUE when condition is partially defined[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should handle undefined variables within IFTRUE branches during partial evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should handle method invocations within IFTRUE with partial evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should evaluate method bodies with full and partial inputs[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should map variables to expressions during partial evaluation[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should handle partially evaluated method bodies in class hierarchy[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[32m- should correctly evaluate THENEXECUTE and ELSERUn constructs[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mRun completed in 371 milliseconds.[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTotal number of tests run: 26[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[36mSuites: completed 1, aborted 0[0m[0m
-[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 10, failed 0, canceled 0, ignored 0, pending 0[0m[0m
+[0m[[0m[0minfo[0m] [0m[0m[36mTests: succeeded 26, failed 0, canceled 0, ignored 0, pending 0[0m[0m
 [0m[[0m[0minfo[0m] [0m[0m[32mAll tests passed.[0m[0m
 [0m[[0m[0mdebug[0m] [0m[0mPassed tests:[0m
 [0m[[0m[0mdebug[0m] [0m[0m	FuzzionTest[0m
