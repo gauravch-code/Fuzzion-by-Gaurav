@@ -1,3 +1,11 @@
+# Feedback for Homework 3
+
+## Score: 19/20
+
+1. -1%: Tests failed to run; compilation error.
+
+---
+
 # Feedback for Homework 2
 
 ## Score: 15/15
